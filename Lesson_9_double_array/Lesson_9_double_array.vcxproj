@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="MyException.h" />
     <ClInclude Include="SmartArray.h" />
   </ItemGroup>
   <ItemGroup>
