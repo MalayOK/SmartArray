@@ -64,8 +64,6 @@ void SmartArray::Insert(unsigned int index, double value)
 		myarray[i] = tmpNumber;
 		tmpNumber = myarray[i + 1];
 	}
-	
-
 }
 void SmartArray::Resize()
 {
