@@ -5,118 +5,133 @@ using namespace std;
 namespace lesson_13
 {
 
-template<class T>
-class SmartArray
-{
-public:
-	SmartArray();
-	~SmartArray();
-	T operator [] (int index)const;
-	void Add(T el);
-	T GetAt(int index)const;
-	int FindNext(int index, T value)const;
-	void Insert(int index, T value);
-	void Remove(int index);
-	int Count(T value)const;
-	int GetSize()const;
-	int GetCapacity()const;
-		
-private:
-	
-	void Resize();
-	 int size;
-	 int capacity;
-	 T* myarray;
-};
-template <class T>
-SmartArray<T>::SmartArray()
-{
-	size = 0;
-	capacity = 8;
-	myarray = new T[capacity];
-}
-template <class T>
-SmartArray<T>::~SmartArray()
-{
-	if (myarray != nullptr)
-		delete[] myarray;
-}
-
-template <class T>
-T SmartArray<T>::operator [] (int index)const
-{
-	
-	if ((index > size) || (index < 0))
-		return 0;
-	return myarray[index];
-}
-
-template <class T>
-void SmartArray<T>::Add(T el)
-{
-	if (size == capacity)
-		Resize();
-	myarray[size] = el;
-	size++;
-#ifdef _DEBUG
-	std::cout << "Add()" << std::endl;
-	MY_MACROS;
-#endif
-}
-
-template <class T>
-T SmartArray<T>::GetAt(int index)const
-{
-#ifdef _DEBUG
-	std::cout << "GetAt()" << std::endl;
-	MY_MACROS;
-#endif
-	if ((index > size) || (index < 0))
-		return 0;
-	return myarray[index - 1];
-}
-
-template <class T>
-int SmartArray<T>::FindNext(int index, T value)const
-{
-#ifdef _DEBUG
-	std::cout << "FindNext()" << std::endl;
-	MY_MACROS;
-#endif
-	for (int i = index; i < size; ++i)
+	template<class T>
+	class SmartArray
 	{
-		if (myarray[i] == value)
-			return i;
-	}
-	return -1;
-}
+	public:
+		SmartArray();
+		~SmartArray();
+		T operator [] (int index)const;
+		void Add(T el);
+		T GetAt(int index)const;
+		int FindNext(int index, T value)const;
+		void Insert(int index, T value);
+		void Remove(int index);
+		int Count(T value)const;
+		int GetSize()const;
+		int GetCapacity()const;
 
-template <class T>
-void SmartArray<T>::Insert(int index, T value)
-{
-#ifdef _DEBUG
-	std::cout << "Insert()" << std::endl;
-	MY_MACROS;
-#endif
-	if (size == capacity)
-		Resize();
-	size++;
-	T tmpNumber = myarray[index];
-	myarray[index] = value;
-	for (int i = index + 1; i < size; ++i)
+	private:
+
+		void Resize();
+		int size;
+		int capacity;
+		T* myarray;
+	};
+	template <class T>
+	SmartArray<T>::SmartArray()
 	{
-		myarray[i] = tmpNumber;
-		tmpNumber = myarray[i + 1];
+		size = 0;
+		capacity = 8;
+		myarray = new T[capacity];
 	}
-}
+	template <class T>
+	SmartArray<T>::~SmartArray()
+	{
+		if (myarray != nullptr)
+			delete[] myarray;
+	}
+
+	template <class T>
+	T SmartArray<T>::operator [] (int index)const
+	{
+		if ((index > size) || (index < 0))
+		{
+			throw std::runtime_error("Index cannot be negative");
+		}
+		return myarray[index];
+	}
+
+	template <class T>
+	void SmartArray<T>::Add(T el)
+	{
+		if (size == capacity)
+			Resize();
+		myarray[size] = el;
+		size++;
+#ifdef _DEBUG
+		std::cout << "Add()" << std::endl;
+		MY_MACROS;
+#endif
+	}
+
+	template <class T>
+	T SmartArray<T>::GetAt(int index)const
+	{
+#ifdef _DEBUG
+		std::cout << "GetAt()" << std::endl;
+		MY_MACROS;
+#endif
+		if ((index > size) || (index < 0))
+		{
+			throw std::runtime_error("Index error");
+		}
+		return myarray[index - 1];
+	}
+
+	template <class T>
+	int SmartArray<T>::FindNext(int index, T value)const
+	{
+
+#ifdef _DEBUG
+		std::cout << "FindNext()" << std::endl;
+		MY_MACROS;
+#endif
+		if ((index > size) || (index < 0))
+		{
+			throw std::runtime_error("Index error");
+		}
+		for (int i = index; i < size; ++i)
+		{
+			if (myarray[i] == value)
+				return i;
+		}
+		return -1;
+	}
+
+	template <class T>
+	void SmartArray<T>::Insert(int index, T value)
+	{
+#ifdef _DEBUG
+		std::cout << "Insert()" << std::endl;
+		MY_MACROS;
+#endif
+		if ((index > size) || (index < 0))
+		{
+			throw std::runtime_error("Index error");
+		}
+		if (size == capacity)
+			Resize();
+		size++;
+		T tmpNumber = myarray[index];
+		myarray[index] = value;
+		for (int i = index + 1; i < size; ++i)
+		{
+			myarray[i] = tmpNumber;
+			tmpNumber = myarray[i + 1];
+		}
+	}
 	template <class T>
 	void SmartArray<T>::Remove(int index)
 	{
 #ifdef _DEBUG
-		std::cout << "Resize()" << std::endl;
+		std::cout << "Remove()" << std::endl;
 		MY_MACROS;
 #endif
-		
+		if ((index > size) || (index < 0))
+		{
+			throw std::runtime_error("Index error");
+		}
 
 		if (size != 0 && (size * 2) < capacity)
 		{
@@ -129,7 +144,7 @@ void SmartArray<T>::Insert(int index, T value)
 			delete[] myarray;
 			myarray = temp;
 		}
-		for ( int i = index + 1; i < size; ++i)
+		for (int i = index + 1; i < size; ++i)
 		{
 			myarray[i] = myarray[i + 1];
 		}
@@ -178,7 +193,7 @@ void SmartArray<T>::Insert(int index, T value)
 #endif
 		capacity *= 2;
 		T* temp = new T[capacity];
-		for ( int i = 0; i < size; ++i)
+		for (int i = 0; i < size; ++i)
 		{
 			temp[i] = myarray[i];
 		}
