@@ -21,8 +21,6 @@ int main()
 	a[index];
 	MY_MACROS_2;
 	double x = a[10];
-	a.Insert(4, 148);
-	a.GetSize();
 	cout << x<<endl;
     x=a.GetAt(-122);
 	cout << x;
